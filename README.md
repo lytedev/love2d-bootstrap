@@ -4,7 +4,7 @@
 
 ### LOVE2D
 
-[Website](love2d)
+[Website][love2d]
 
 *Windows Only*: Put love.exe and the required DLLs in `lib/love`.
 
@@ -12,7 +12,7 @@
 
 ### Helper Utilities for More Productivity (HUMP)
 
-[Website](hump)
+[Website][hump]
 
 `git clone https://github.com/vrld/hump.git lib/hump`
 
