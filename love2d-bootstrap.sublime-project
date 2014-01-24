@@ -1,0 +1,58 @@
+{
+	"build_systems":
+	[
+		{
+			"name": "Test LOVE2D Project",
+			"windows":
+			{
+				"cmd":
+				[
+					"${project_path}/lib/love/love",
+					"${project_path}"
+				],
+			},
+			"linux":
+			{
+				"cmd":
+				[
+					"love",
+					"${project_path}"
+				]
+			}
+		},
+		{
+			"name": "Compile LOVE2D Project",
+			"windows":
+			{
+				"cmd": ["${project_path}/build.bat", "${project_base_name}", "${project_path}"]
+			},
+			"linux":
+			{
+				"cmd": ["${project_path}/build.sh", "${project_base_name}", "${project_path}"]
+			}
+		}
+	],
+	"folders":
+	[
+		{
+			"name": "Project Directory",
+			"path": "."
+		},
+		{
+			"name": "Source",
+			"path": "./src"
+		},
+		{
+			"name": "Libraries",
+			"path": "./lib"
+		},
+		{
+			"name": "Assets",
+			"path": "./assets"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4
+	}
+}
