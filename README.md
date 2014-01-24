@@ -8,7 +8,7 @@
 
 *Windows Only*: Put love.exe and the required DLLs in `lib/love`.
 
-*TODO*: Make this optional.
+**TODO**: Make this optional.
 
 ### Helper Utilities for More Productivity (HUMP)
 
@@ -28,7 +28,7 @@ This will require that you have the LOVE executable and the necessary DLLs in `l
 
 Run `sh build.sh`. You will need to have the love and p7zip packages installed.
 
-*NOTE*: Tested on Arch Linux only.
+**NOTE**: Tested on Arch Linux only.
 
 ## OSX
 
