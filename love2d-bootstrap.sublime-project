@@ -7,7 +7,7 @@
 			{
 				"cmd":
 				[
-					"${project_path}/lib/love/love",
+					"love",
 					"${project_path}"
 				],
 			},

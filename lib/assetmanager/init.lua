@@ -16,7 +16,9 @@ local AssetManager = Class{function(self)
     self.assetRoot = "assets/"
     self.imageFolder = "img/"
     self.fontFolder = "font/"
-    self.scriptsFolder = "scripts/"
+    self.scriptsFolder = "script/"
+    self.musicFolder = "music/"
+    self.soundsFolder = "sfx/"
 
     self.images = {}
     self.fonts = {}

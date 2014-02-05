@@ -25,7 +25,9 @@ function Console:init(font, height)
 	self.messages = {}
 	self.scroll = 0
 	self.canDisplay = 1
-	self.size = {1, -10}
+
+	-- Negative sizes indicates lines of output versus pixels
+	self.size = {1, -15}
 	self.margin = {0, 0}
 
 	self.commands = {}

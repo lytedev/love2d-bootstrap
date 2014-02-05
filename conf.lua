@@ -61,7 +61,7 @@ function love.conf(t)
     t.console = false
 
     -- http://semver.org
-	t.titleVersion = "0.1.0"
+	t.titleVersion = "0.2.0"
 	t.version = "0.9.0"
 
     t.window.title = t.title.." "..t.titleVersion
@@ -78,6 +78,8 @@ function love.conf(t)
     t.window.fsaa = 0
     t.window.display = 1
 
+    -- LOVE modules
+    -- The bootstrap requires graphics, image, keyboard, and window
     t.modules.audio = true
     t.modules.event = true
     t.modules.graphics = true
@@ -88,7 +90,7 @@ function love.conf(t)
     t.modules.mouse = true
     t.modules.physics = true
     t.modules.sound = true
-    t.modules.system = true
+    t.modules.system = false
     t.modules.timer = true
     t.modules.window = true
 

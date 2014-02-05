@@ -12,6 +12,7 @@ Gamestate = require("lib.hump.gamestate")
 Class = require("lib.hump.class")
 
 assetManager = require("lib.assetmanager")()
+hooks = require("lib.hooks")
 defaultFont = love.graphics.newFont(9)
 console = require("lib.console")(defaultFont, 10)
 old_print = print
@@ -27,6 +28,7 @@ function love.load(args)
 	dofile(assetManager:createScriptPath("init"))
 	Gamestate.registerEvents()
 	Gamestate.switch(require("src.scenes.game"))
+	hooks.registerLoveCallbacks()
 
 	love.keyboard.setTextInput(true)
 	love.keyboard.setKeyRepeat(true)

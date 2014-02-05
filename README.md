@@ -6,13 +6,11 @@
 
 [Website][love2d]
 
-*Windows Only*: Put love.exe and the required DLLs in `lib/love`.
-
-**TODO**: Make this optional.
-
 ### Helper Utilities for More Productivity (HUMP)
 
 [Website][hump]
+
+The hump library files must be included in the project. You can quickly grab them with the following command: 
 
 `git clone https://github.com/vrld/hump.git lib/hump`
 
@@ -36,3 +34,7 @@ Coming soon?
 
 [love2d]: https://love2d.org
 [hump]: http://vrld.github.io/hump
+
+# TODO
+
+* Sound/music/audio system

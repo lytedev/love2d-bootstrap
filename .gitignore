@@ -2,11 +2,3 @@ bin/*
 lib/hump/*
 lib/love/*
 *.sublime-workspace
-
-assets/font/*
-assets/img/*
-assets/music/*
-assets/scripts/*
-assets/sfx/*
-
-
