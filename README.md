@@ -1,6 +1,6 @@
 # Project Name
 
-## Depencies
+## Dependencies
 
 ### LOVE2D
 
