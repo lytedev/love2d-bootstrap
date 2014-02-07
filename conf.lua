@@ -145,6 +145,10 @@ function int_to_bytes(num, endian, signed)
     return string.char(unpack(res))
 end
 
+function string.trim(str)
+    return string.match(str, '^%s*(.-)%s*$') or ''
+end
+
 function string.insert(str, s2, i)
 	local i = i or string.len(str)
 	local s = string.sub(str, 1, i) .. tostring(s2) .. string.sub(str, i + 1, string.len(str))

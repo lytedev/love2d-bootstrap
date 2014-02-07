@@ -27,8 +27,6 @@ function Game:init()
 
 	]]--
 
-	print(config)
-
 	self.netTimer = 0
 	self.netUpdateTime = (1 / config.networkUPS)
 

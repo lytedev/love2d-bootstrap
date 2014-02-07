@@ -28,6 +28,7 @@ function love.load(args)
 	dofile(assetManager:createScriptPath("init"))
 	Gamestate.registerEvents()
 	Gamestate.switch(require("src.scenes.game"))
+	console:toggle()
 	hooks.registerLoveCallbacks()
 
 	love.keyboard.setTextInput(true)
