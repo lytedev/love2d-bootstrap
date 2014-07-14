@@ -1,16 +1,26 @@
-# Project Name
+# love2d-bootstrap
 
-## Dependencies
+This repository is meant to add a lot of basic functionality to your projects and is a great base to start a new project on.
 
-### LOVE2D
+# Features
+
+* Flexible and powerful animation system
+* In-game console and scripting engine with hooks for realtime development
+* Server-client logic baked in from the get-go
+* The incredible [hump][hump] library
+* Simple assets manager
+
+# Dependencies
+
+## LOVE2D
 
 [Website][love2d]
 
-### Helper Utilities for More Productivity (HUMP)
+## Helper Utilities for More Productivity (HUMP)
 
 [Website][hump]
 
-The hump library files must be included in the project. You can quickly grab them with the following command: 
+The hump library files must be included in the project. You can quickly grab them with the following command:
 
 `git clone https://github.com/vrld/hump.git lib/hump`
 
@@ -32,9 +42,11 @@ Run `sh build.sh`. You will need to have the love and p7zip packages installed.
 
 Coming soon?
 
-[love2d]: https://love2d.org
-[hump]: http://vrld.github.io/hump
-
 # TODO
 
 * Sound/music/audio system
+* Update client/server classes to use new ENet library in love
+* Simple GUI system?
+
+[love2d]: https://love2d.org
+[hump]: http://vrld.github.io/hump

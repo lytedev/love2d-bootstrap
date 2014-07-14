@@ -2,6 +2,29 @@
 	"build_systems":
 	[
 		{
+			/*
+
+			NOTE: If you're window does not appear, this fix worked for me:
+
+			http://stackoverflow.com/questions/14256590/qapplication-not-executed-in-sublime-text-2-python
+
+			Solution:
+
+			Go to Preferences → Browse Packages
+			Open the Default directory
+			Open exec.py in the editor
+			Around line 35, you’ll see:
+
+				# Hide the console window on Windows
+				startupinfo = None
+				if os.name == "nt":
+				    startupinfo = subprocess.STARTUPINFO()
+			    	startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+			Comment out the last line of this block `startupinfo.dwFlags |= ...`
+			Save and try building now.
+
+			*/
 			"name": "Test LOVE2D Project",
 			"windows":
 			{
@@ -53,6 +76,6 @@
 	],
 	"settings":
 	{
-		"tab_size": 4
+		// "tab_size": 4
 	}
 }

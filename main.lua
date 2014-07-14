@@ -8,9 +8,11 @@ Game entry point.
 
 ]]--
 
+-- Classes we want global access to
 Gamestate = require("lib.hump.gamestate")
 Class = require("lib.hump.class")
 
+-- Global objects
 assetManager = require("lib.assetmanager")()
 hooks = require("lib.hooks")
 defaultFont = love.graphics.newFont(9)

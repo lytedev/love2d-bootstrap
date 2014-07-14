@@ -50,16 +50,16 @@ function Console:init(font, height)
 	self.logFile:open("a")
 
 	self.typeColors = {
-		normal={255, 255, 255, 100}, 
+		normal={255, 255, 255, 100},
 		["n/a"]={255, 0, 255, 255},
-		server={120, 150, 100, 255}, 
-		client={0, 150, 150, 255}, 
-		game={0, 100, 200, 255}, 
-		warning={255, 200, 0, 255}, 
-		info={0, 150, 255, 255}, 
-		good={150, 255, 40, 255}, 
-		console={50, 255, 255, 255}, 
-		error={255, 40, 0, 255}, 
+		server={120, 150, 100, 255},
+		client={0, 150, 150, 255},
+		game={0, 100, 200, 255},
+		warning={255, 200, 0, 255},
+		info={0, 150, 255, 255},
+		good={150, 255, 40, 255},
+		console={50, 255, 255, 255},
+		error={255, 40, 0, 255},
 		fatal={255, 0, 255, 255}
 	}
 
@@ -100,7 +100,7 @@ function Console:add(text)
 	while #self.messages > self.maxMessages do
 		table.remove(self.messages, 1)
 	end
-	if self.scroll > 1 then 
+	if self.scroll > 1 then
 		self.scroll = self.scroll + 1
 	end
 	return msg
@@ -173,7 +173,7 @@ end
 
 function Console:draw(dt)
 	if not self.shouldDraw then
-		return 
+		return
 	end
 
 	local pos = self.position
@@ -213,7 +213,7 @@ end
 
 function Console:keypressed(k, isRepeat)
 	if not self.stealInput then
-		return 
+		return
 	end
 
 	if self.size[2] < 0 then
@@ -232,7 +232,7 @@ function Console:keypressed(k, isRepeat)
 			self.scroll = 1000000000
 		elseif k == "down" or k == "pagedown" then
 			self.scroll = 0
-		end	
+		end
 	elseif love.keyboard.isDown("lctrl", "rctrl") then
 		if k == "up" then
 			self.scroll = self.scroll + 1
@@ -340,9 +340,9 @@ function Console:processCommand(input)
 		local cutter = nil
 		local cutter = string.match(input, '^(["\'].-["\']%s*)')
 		local m = string.match(input, '^["\'](.-)["\']%s*')
-		if not m then 
+		if not m then
 			cutter = string.match(input, 	'^([^%s]+)')
-			m = string.match(input, 		'^([^%s]+)') 
+			m = string.match(input, 		'^([^%s]+)')
 		end
 		if m == nil or #args > 20 then
 			break
@@ -368,7 +368,7 @@ end
 
 function Console:handleInput(i)
 	local i = i or self.input
-	old_print(i)
+	print(i)
 	local isInput = false
 	if string.trim(i) == '' then
 		return
@@ -407,11 +407,11 @@ function Console:getAlias(alias)
 end
 
 function Console:bindCommand(cmd, f)
-	if not cmd.command and not f then 
+	if not cmd.command and not f then
 		print("Console: Tried to add blank command")
 		return
 	elseif cmd and not f then
-		
+
 	else
 		cmd = {command = cmd, callback = f}
 	end

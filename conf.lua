@@ -4,15 +4,90 @@ File: 		conf.lua
 Author: 	Daniel "lytedev" Flanagan
 Website:	http://dmf.me
 
-Sets the default configuration values for the LOVE2D framework.
+Sets the default configuration values for the LOVE2D framework
+Defines the main loop of our LOVE application
+Contains various helper functions
+
+-- TODO: Global helper functions are a silly idea. Should consider putting them
+-- at least in some kind of "namespace" or object somewhere.
 
 ]]--
 
+function love.conf(t)
+    --
+    io.stdout:setvbuf("no")
+
+    -- Create a global variable "config" for direct access to these variables
+	config = t
+
+    -- Change these to fit your game
+	t.title = "LOVE2D Boilerplate"
+	t.author = "Author Name"
+	t.url = "http://lytedev.com/love2d-boilerplate"
+	t.identity = "love2d_boilerplate"
+
+	-- Unrelated to this boilerplate's in-game console - see conf.lua documentation
+    t.console = false
+
+    -- Game Version
+	t.titleVersion = "0.2.0"
+
+    -- Required LOVE Version
+	t.version = "0.9.1"
+
+    -- http://semver.org
+
+    -- Graphics and display settings
+    t.window.title = t.title .. " " .. t.titleVersion
+    t.window.icon = nil
+    t.window.width = 640
+    t.window.height = 360
+    t.window.borderless = false
+    t.window.resizable = false
+    t.window.minwidth = 320
+    t.window.minheight = 180
+    t.window.fullscreen = false
+    t.window.fullscreentype = "normal"
+    t.window.vsync = true
+    t.window.fsaa = 0
+    t.window.display = 1
+
+    -- LOVE modules
+    t.modules.audio = true
+    t.modules.event = true
+    t.modules.graphics = true
+    t.modules.image = true
+    t.modules.joystick = true
+    t.modules.keyboard = true
+    t.modules.math = true
+    t.modules.mouse = true
+    t.modules.physics = true
+    t.modules.sound = true
+    t.modules.system = true
+    t.modules.timer = true
+    t.modules.window = true
+    t.modules.thread = true
+
+    -- Network updates per second
+	t.networkUPS = 10
+
+    -- To hold custom settings
+	t.settings = {}
+end
+
+-- Our main loop
 function love.run()
-    math.randomseed(os.time())
-    math.random() math.random()
+    if love.math then
+        love.math.setRandomSeed(os.time())
+    end
+
+    if love.event then
+        love.event.pump()
+    end
 
     if love.load then love.load(arg) end
+
+    if love.timer then love.timer.step() end
 
     local dt = 0
 
@@ -38,68 +113,19 @@ function love.run()
         end
 
         if love.update then love.update(dt) end
-        if love.graphics then
+
+        if love.window and love.graphics and love.window.isCreated() then
             love.graphics.clear()
+            love.graphics.origin()
             if love.draw then love.draw() end
+            love.graphics.present()
         end
 
-        -- Comment out the next line if you wanna see your true FPS
         if love.timer then love.timer.sleep(0.001) end
-        if love.graphics then love.graphics.present() end
     end
 end
 
-function love.conf(t)
-	config = t
-
-	t.title = "LOVE2D Boilerplate"
-	t.author = "Daniel \"lytedev\" Flanagan"
-	t.url = "http://lytedev.com/love2d-boilerplate"
-	t.identity = "love2d_boilerplate"
-
-	-- Unrelated to this boilerplate's console
-    t.console = false
-
-    -- http://semver.org
-	t.titleVersion = "0.2.0"
-	t.version = "0.9.0"
-
-    t.window.title = t.title.." "..t.titleVersion
-    t.window.icon = nil
-    t.window.width = 640
-    t.window.height = 360
-    t.window.borderless = false
-    t.window.resizable = false
-    t.window.minwidth = 320
-    t.window.minheight = 180
-    t.window.fullscreen = false
-    t.window.fullscreentype = "normal"
-    t.window.vsync = true
-    t.window.fsaa = 0
-    t.window.display = 1
-
-    -- LOVE modules
-    -- The bootstrap requires graphics, image, keyboard, and window
-    t.modules.audio = true
-    t.modules.event = true
-    t.modules.graphics = true
-    t.modules.image = true
-    t.modules.joystick = true
-    t.modules.keyboard = true
-    t.modules.math = true
-    t.modules.mouse = true
-    t.modules.physics = true
-    t.modules.sound = true
-    t.modules.system = false
-    t.modules.timer = true
-    t.modules.window = true
-
-    -- Network updates per second
-	t.networkUPS = 10
-
-    -- To hold custom settings
-	t.settings = {}
-end
+-- Helper functions
 
 -- Credit for the next two functions:
 -- http://stackoverflow.com/questions/5241799/lua-dealing-with-non-ascii-byte-streams-byteorder-change/5244306#5244306
