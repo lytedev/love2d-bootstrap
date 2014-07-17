@@ -4,7 +4,7 @@ File:       src/animation/frame.lua
 Author:     Daniel "lytedev" Flanagan
 Website:    http://dmf.me
 
-Contains the data to specify a piece of a texture over a period of time.
+Contains the data to specify an animation frame.
 
 ]]--
 
@@ -18,7 +18,7 @@ function Frame.generate(w, h, imgw, imgh, num, time, frames, offset, start)
 	local framesArray = {}
 	for i = start, num - 1, 1 do
 		-- To change left-to-right-down, modify xid and yid calcs
-		local xid = i % tw 
+		local xid = i % tw
 		local yid = math.floor(i / tw)
 
 		local frame = Frame(Vector(xid * w, yid * h), Vector(w, h), time, frames, offset)

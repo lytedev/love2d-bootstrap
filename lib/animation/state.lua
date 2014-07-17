@@ -4,7 +4,7 @@ File:       src/animation/state.lua
 Author:     Daniel "lytedev" Flanagan
 Website:    http://dmf.me
 
-A manager for an animation Group and for drawing the current state.
+A manager for an animation group and for drawing the current state.
 
 ]]--
 

@@ -8,66 +8,69 @@ A basic Lua networking client for LOVE2D games.
 
 ]]--
 
-local socket = require("socket")
-local Packet = require("lib.net.packet")
+require("enet")
+
 local Client = Class{}
 
 function Client:init()
-	self.printPacketInfo = 0
-	self.sock = socket.udp()
+	self.host = enet.host_create()
+	self.server = false
+	self.remote = false
 	self.connected = false
-	self.packetHandler = {}
+	self.delay = -1
 end
 
 function Client:connect(addr, port)
 	local addr = addr or 'localhost'
-	local port = port or 8888
-	self.sock:settimeout(0)
-	if (self.sock:setpeername(addr, port)) then
-		print(string.format("Client: Connecting to %s:%i...", addr, port))
-		self.connected = true
-	else
-		print(string.format("Client: Failed to connect to %s:%i", addr, port))
-	end
+	local port = port or config.defaultPort
+	self.server = self.host:connect(string.format(addr..":%i", port))
+	self.connected = true
 end
 
-function Client:sendPacket(p)
-	if self.printPacketInfo > 0 then
-		print("Client: Send Packet: " .. tostring(p))
-	end
-
-	self.sock:send(p:toData())
-end
-
-function Client:handlePacket(data)
-	local p = Packet(nil, data)
-
-	if self.printPacketInfo > 0 then
-		print("Client: Recieved Packet: " .. tostring(p))
-	end
-
-	if self.packetHandler[p.type] then
-		self.packetHandler[p.type](self, p)
-	else
-		if self.printPacketInfo > 0 then
-			print(string.format("Client: Found packet of type %i without handler", p.type))
-		end
-	end
+function Client:disconnect()
+	local event = self.host:service(100)
+	self.server:disconnect_later()
+	self.host:flush()
 end
 
 function Client:update()
-	if not self.connected then
-		return
-	end
+	if not self.connected then return end
 
-	repeat
-		data, msg = self.sock:receive()
-		if data then
-			self:handlePacket(data)
-		elseif msg ~= 'timeout' then
-            print("Client: Network error: " .. tostring(msg))
+	self:handleEvent(self.host:service())
+
+	self.server:ping()
+	self.delay = self.server:round_trip_time()
+	if self.delay >= 5000 then
+		self.server = false
+		self.connected = false
+	end
+	-- old_print(string.format("Client Ping: %ims", self.delay))
+end
+
+function Client:send(data)
+	if not self.remote then return false end
+	self.remote:send(data)
+end
+
+function Client:handleEvent(e)
+	--[[
+
+	e.type
+	e.peer
+	e.data
+
+	]]--
+
+	if e then
+		if e.type == "connect" then
+			self.remote = e.peer
+			print(string.format("Client: Connected to %s", self.remote))
+			self:send(config.title .. "\n" .. config.identity .. "\n" .. config.titleVersion .. "\n" .. config.version)
+		elseif e.type == "receive" then
+			print(string.format("Client: Received from server: %s", e.data))
+			-- self:send(tostring(e.peer) .. ": " .. e.data)
 		end
-	until not data
+	end
 end
 
 return Client

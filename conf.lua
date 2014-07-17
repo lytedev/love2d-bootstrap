@@ -70,6 +70,7 @@ function love.conf(t)
 
     -- Network updates per second
 	t.networkUPS = 10
+    t.defaultPort = 8888
 
     -- To hold custom settings
 	t.settings = {}
@@ -208,17 +209,59 @@ function dofile(file, name)
 	end
 end
 
-function dostring(str)
+function dostring(str, tryagain)
+    tryagain = tryagain or true
 	local ok, f, e = pcall(loadstring, str)
 	if not ok then
-		print("Error: " .. tostring(f))
+        if tryagain then
+            return dostring("return " .. str)
+        else
+            print("Error: " .. tostring(f))
+        end
 	else
 		local result
 		ok, result = pcall(f)
 		if not ok then
-			print("Error: " .. tostring(result))
+            if tryagain then
+                return dostring("return " .. str)
+            else
+                print("Error: " .. tostring(result))
+            end
 		else
 			print("Console: " .. tostring(result))
 		end
 	end
+end
+
+function pprint(o, level)
+    level = level or 0
+    if type(o) == "userdata" then
+        o = getmetatable(o)
+    end
+    if type(o) == "table" then
+        for k, v in pairs(o) do
+            if type(v) == "table" or type(v) == "userdata" then
+                pre = ""
+                for i = 1, level do
+                    pre = pre .. "--"
+                end
+                if pre == "" then
+                    old_print(tostring(k) .. " > ")
+                else
+                    old_print(pre, tostring(k) .. " > ")
+                end
+                pprint(v, level + 1)
+            else
+                pre = ""
+                for i = 1, level do
+                    pre = pre .. "--"
+                end
+                if pre == "" then
+                    old_print(k, v)
+                else
+                    old_print(pre, k, v)
+                end
+            end
+        end
+    end
 end

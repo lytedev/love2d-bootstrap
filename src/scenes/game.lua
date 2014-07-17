@@ -10,27 +10,21 @@ Game scene.
 
 local Game = Gamestate.new()
 
-local Server = require("src.net.server")
-local Client = require("src.net.client")
-local Packet = require("lib.net.packet")
+local Client = require("lib.net.client")
+local Server = require("lib.net.server")
 
 settings = {}
 
 function Game:init()
-	--[[
-
-	local sans11 = assetManager:getFont('opensans_light', 20, 'sans11')
-	local px8 = assetManager:getFont('pf_tempesta_seven_condensed', 8, 'px8')
-	local pxs8 = assetManager:getFont('pf_westa_seven_condensed', 8, 'pxs8')
-
-	console:setFont(px8, 10)
-
-	]]--
-
 	self.netTimer = 0
 	self.netUpdateTime = (1 / config.networkUPS)
 
-	self:startSingleplayer()
+	self.server = false
+	self.client = Client()
+
+	-- pprint(self.client.host)
+
+	-- self:startSingleplayer()
 end
 
 function Game:update(dt)
@@ -39,7 +33,7 @@ function Game:update(dt)
 	end
 
 	self.netTimer = self.netTimer + dt
-	if self.netTimer > self.netUpdateTime then
+	if self.netTimer > self.netUpdateTime or true then
 		self:netUpdate(dt)
 		self.netTimer = self.netTimer - ((math.floor(self.netTimer / self.netUpdateTime)) * self.netUpdateTime)
 	end
@@ -55,32 +49,36 @@ function Game:netUpdate(dt)
 end
 
 function Game:startSingleplayer()
-	if self.server then
-		print("Server: You are already hosting a server!")
-	elseif self.client then
-		print("Client: You are already connected to a server!")
-	else
-		print("Game: Starting singleplayer")
-		self.server = Server()
-		self.server:host("127.0.0.1")
-		self.client = Client()
-		self.client:connect()
-	end
+	self.server = Server()
+	self.server:start()
+	self.client:connect()
+end
+
+function Game:hostServer(addr, port)
+	addr = addr or "localhost"
+	port = port or config.defaultPort
+	self.server = Server()
+	self.server:start(addr, port)
+	self.client:connect(addr, port)
+end
+
+function Game:joinServer(addr, port)
+	addr = addr or "localhost"
+	port = port or config.defaultPort
+	self.client:connect(addr, port)
 end
 
 function Game:keypressed(k, u)
-	if k == "tab" then
-		console:toggle()
-	end
-	if console.stealInput then
-		return
-	end
 end
 
 function Game:draw()
-	local y = love.graphics.getHeight() - love.graphics.getFont():getHeight() - 5
+	local lh = love.graphics.getFont():getHeight() + 5
+	local y = love.graphics.getHeight() - lh
 	love.graphics.setColor(255, 255, 255, 128)
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 5, y)
+	if self.client.remote then
+		love.graphics.print("Ping: " .. tostring(self.client.delay), 5, y - lh)
+	end
 	console:draw()
 end
 

@@ -19,7 +19,7 @@ local cmd_commands = {
 		if command then
 			commandStr = console:getAlias(command) or command
 			command = console.commandHandler[commandStr]
-			if not command then 
+			if not command then
 				console:add("Error: Could not find command '" .. commandStr .. "'")
 				return
 			end
@@ -61,3 +61,7 @@ local cmd_help = {
 
 console:bindCommand(cmd_commands)
 console:bindCommand(cmd_help)
+
+require("assets.scripts.commands")
+
+print("Scripts: Initialization complete.")

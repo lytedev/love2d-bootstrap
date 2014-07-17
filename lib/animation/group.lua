@@ -4,7 +4,7 @@ File:       src/animation/group.lua
 Author:     Daniel "lytedev" Flanagan
 Website:    http://dmf.me
 
-Contains functions for managing a group of Sets.
+Contains functions for managing a group of animations.
 
 ]]--
 
@@ -17,7 +17,7 @@ function Group:init(setKeysTable)
         for i = 1, #setKeysTable, 1 do
             local key = setKeysTable[i].key or setKeysTable[i][1] or nil
             local set = setKeysTable[i].set or setKeysTable[i][2] or nil
-            if key and set then 
+            if key and set then
                 self:addSet(key, set)
             end
         end

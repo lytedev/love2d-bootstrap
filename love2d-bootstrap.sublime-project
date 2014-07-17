@@ -66,6 +66,10 @@
 			"path": "./src"
 		},
 		{
+			"name": "Scripts",
+			"path": "./assets/scripts"
+		},
+		{
 			"name": "Libraries",
 			"path": "./lib"
 		},

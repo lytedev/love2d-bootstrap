@@ -4,7 +4,7 @@ File:       lib/assetmanager/init.lua
 Author:     Daniel "lytedev" Flanagan
 Website:    http://dmf.me
 
-Defines a current animation state. Effectively the IDrawable interface for a sprite.
+A simple asset manager.
 
 ]]--
 
@@ -14,18 +14,18 @@ local AssetManager = Class{function(self)
     self.blankImage = love.graphics.newImage(imgData)
 
     self.assetRoot = "assets/"
-    self.imageFolder = "img/"
-    self.fontFolder = "font/"
-    self.scriptsFolder = "script/"
+    self.imageFolder = "images/"
+    self.fontFolder = "fonts/"
+    self.scriptsFolder = "scripts/"
     self.musicFolder = "music/"
-    self.soundsFolder = "sfx/"
+    self.soundsFolder = "sounds/"
 
     self.images = {}
     self.fonts = {}
 end}
 
 function AssetManager:createAssetPath(file, suffix)
-    return (self.assetRoot .. string.gsub(file, "[\\.]", "/") .. suffix or '') 
+    return (self.assetRoot .. string.gsub(file, "[\\.]", "/") .. suffix or '')
 end
 
 function AssetManager:createScriptPath(file)

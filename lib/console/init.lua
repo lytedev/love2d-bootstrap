@@ -4,7 +4,7 @@ File: 		console.lua
 Author: 	Daniel "lytedev" Flanagan
 Website:	http://dmf.me
 
-A console system for LOVE2D games.
+A console and scripting system for LOVE2D games.
 
 ]]--
 
@@ -290,7 +290,7 @@ function Console:handleInput(i)
 		isInput = true
 	end
 
-	dostring(self.input)
+	dostring(i)
 
 	if isInput then
 		self.input = ''
@@ -368,7 +368,6 @@ end
 
 function Console:handleInput(i)
 	local i = i or self.input
-	print(i)
 	local isInput = false
 	if string.trim(i) == '' then
 		return
@@ -376,6 +375,7 @@ function Console:handleInput(i)
 	if i == self.input then
 		isInput = true
 	end
+	print("Input: " .. i)
 
 	if i == 'help' then
 		i = '/help'
