@@ -8,12 +8,35 @@ A console and scripting system for LOVE2D games.
 
 ]]--
 
+local Class = require("lib.hump.class")
+
 local Console = Class{}
 
 local os = require("os")
 
-function Console:init(font, height)
-	self:setFont(font, height)
+function Console:init(font, height, overwritePrint, show)
+	overwritePrint = overwritePrint or true
+	show = show or false
+	font = font or false
+	if font and not height then
+		height = font:getHeight()
+	elseif not height then
+		height = 9
+	end
+
+	if overwritePrint then
+		old_print = print
+		print = function(msg, from)
+			self:add(msg, from)
+		end
+	end
+
+	if not font then
+		font = love.graphics.newFont(height)
+		self:setFont(font, height)
+	else
+		self:setFont(font, height)
+	end
 
 	self.shouldDraw = false
 	self.stealInput = false
@@ -50,17 +73,17 @@ function Console:init(font, height)
 	self.logFile:open("a")
 
 	self.typeColors = {
-		normal={255, 255, 255, 100},
+		["normal"]={255, 255, 255, 100},
 		["n/a"]={255, 0, 255, 255},
-		server={120, 150, 100, 255},
-		client={0, 150, 150, 255},
-		game={0, 100, 200, 255},
-		warning={255, 200, 0, 255},
-		info={0, 150, 255, 255},
-		good={150, 255, 40, 255},
-		console={50, 255, 255, 255},
-		error={255, 40, 0, 255},
-		fatal={255, 0, 255, 255}
+		["server"]={120, 150, 100, 255},
+		["client"]={0, 150, 150, 255},
+		["game"]={0, 100, 200, 255},
+		["warning"]={255, 200, 0, 255},
+		["info"]={0, 150, 255, 255},
+		["good"]={150, 255, 40, 255},
+		["console"]={50, 255, 255, 255},
+		["error"]={255, 40, 0, 255},
+		["fatal"]={255, 0, 255, 255}
 	}
 
 	self.textColors = {
@@ -69,6 +92,29 @@ function Console:init(font, height)
 
 	self.commandHandler = {}
 	self.commandAliases = {}
+
+	-- Console needs text input hooks (duh) and keyrepeat is familiar
+	love.keyboard.setTextInput(true)
+	love.keyboard.setKeyRepeat(true)
+
+	if show then
+		self:toggle()
+	end
+
+	if hooks == nil then
+		hooks = require("lib.hooks")
+		hooks.registerLoveCallbacks()
+	end
+
+	hooks:add('textinput', function(...) self:textinput(...) end)
+	hooks:add('keypressed', function(...) self:keypressed(...) end)
+	hooks:add('update', function(...) self:update(...) end)
+	hooks:add('draw', function(...) self:draw(...) end)
+	if assetManager ~= nil then
+		hooks:add('load', function(...) dofile(assetManager:createScriptPath("init")) end)
+	end
+
+	print("Console: Initialized")
 end
 
 function Console:setFont(font, height)
@@ -427,6 +473,47 @@ function Console:bindCommand(cmd, f)
 	end
 
 	self.commandHandler[cmd.command] = cmd
+end
+
+-- For running files or strings through the interpreter/console
+function dofile(file, name)
+	local ok, chunk = pcall(love.filesystem.load, file)
+	if not ok then
+		print("Error: " .. tostring(chunk))
+	else
+		local result
+		ok, result = pcall(chunk)
+		if not ok then
+			print("Error: " .. tostring(result))
+		else
+			-- print("Console: " .. tostring(result))
+			-- Scripts do not have a result printed
+		end
+	end
+end
+
+function dostring(str, tryagain)
+    tryagain = tryagain or true
+	local ok, f, e = pcall(loadstring, str)
+	if not ok then
+        if tryagain then
+            return dostring("return " .. str)
+        else
+            print("Error: " .. tostring(f))
+        end
+	else
+		local result
+		ok, result = pcall(f)
+		if not ok then
+            if tryagain then
+                return dostring("return " .. str)
+            else
+                print("Error: " .. tostring(result))
+            end
+		else
+			print("Console: " .. tostring(result))
+		end
+	end
 end
 
 return Console

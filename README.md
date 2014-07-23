@@ -1,6 +1,6 @@
 # love2d-bootstrap
 
-This repository is meant to add a lot of basic functionality to your projects and is a great base to start a new project on.
+This project is meant to add a lot of basic functionality to your projects and is a great base to start a new project on.
 
 # Features
 
@@ -16,6 +16,8 @@ This repository is meant to add a lot of basic functionality to your projects an
 
 [Website][love2d]
 
+You Windows users will want the love executables in your PATH.
+
 ## Helper Utilities for More Productivity (HUMP)
 
 [Website][hump]
@@ -23,24 +25,6 @@ This repository is meant to add a lot of basic functionality to your projects an
 The hump library files must be included in the project. You can quickly grab them with the following command:
 
 `git clone https://github.com/vrld/hump.git lib/hump`
-
-# Build
-
-## Windows
-
-To build your love project, simply run `build.bat`.
-
-This will require that you have the LOVE executable and the necessary DLLs in `lib/love` and that the 7-Zip executable can be found in your PATH.
-
-## Linux
-
-Run `sh build.sh`. You will need to have the love and p7zip packages installed.
-
-**NOTE**: Tested on Arch Linux only.
-
-## OSX
-
-Coming soon?
 
 # TODO
 

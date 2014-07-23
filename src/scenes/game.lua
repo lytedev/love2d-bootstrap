@@ -4,7 +4,7 @@ File: 		game.lua
 Author: 	Daniel "lytedev" Flanagan
 Website:	http://dmf.me
 
-Game scene.
+An example gamestate.
 
 ]]--
 

@@ -10,7 +10,20 @@ A manager for scripting hooks.
 
 local function __NULL__() end
 
-local all_callbacks = { 'update', 'draw', 'focus', 'keypressed', 'keyreleased', 'mousepressed', 'mousereleased', 'joystickpressed', 'joystickreleased', 'quit'}
+local all_callbacks = {
+	'load',
+	'update',
+	'draw',
+	'focus',
+	'textinput',
+	'keypressed',
+	'keyreleased',
+	'mousepressed',
+	'mousereleased',
+	'joystickpressed',
+	'joystickreleased',
+	'quit'
+}
 
 local Hooks = {
 	_hooks = {}
@@ -19,7 +32,7 @@ local Hooks = {
 function Hooks.registerLoveCallbacks(callbacks)
 	local registry = {}
 	callbacks = callbacks or all_callbacks
-	for _, f in ipairs(callbacks) do
+	for _,f in ipairs(callbacks) do
 		registry[f] = love[f] or __NULL__
 		love[f] = function(...)
 			registry[f](...)
@@ -39,7 +52,7 @@ end
 
 function Hooks:add(name, f)
 	local hook = self._hooks[name]
-	if not hook then 
+	if not hook then
 		hook = {}
 		self._hooks[name] = hook
 	end
@@ -48,7 +61,7 @@ end
 
 function Hooks:clear(name)
 	local hook = self._hooks[name]
-	if hook then 
+	if hook then
 		hook = {}
 		self._hooks[name] = hook
 	end

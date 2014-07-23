@@ -192,47 +192,6 @@ function string_bytes(str, sep)
 	return s
 end
 
--- For running files or strings through the interpreter/console
-function dofile(file, name)
-	local ok, chunk = pcall(love.filesystem.load, file)
-	if not ok then
-		print("Error: " .. tostring(chunk))
-	else
-		local result
-		ok, result = pcall(chunk)
-		if not ok then
-			print("Error: " .. tostring(result))
-		else
-			-- print("Console: " .. tostring(result))
-			-- Scripts do not have a result printed
-		end
-	end
-end
-
-function dostring(str, tryagain)
-    tryagain = tryagain or true
-	local ok, f, e = pcall(loadstring, str)
-	if not ok then
-        if tryagain then
-            return dostring("return " .. str)
-        else
-            print("Error: " .. tostring(f))
-        end
-	else
-		local result
-		ok, result = pcall(f)
-		if not ok then
-            if tryagain then
-                return dostring("return " .. str)
-            else
-                print("Error: " .. tostring(result))
-            end
-		else
-			print("Console: " .. tostring(result))
-		end
-	end
-end
-
 function pprint(o, level)
     level = level or 0
     if type(o) == "userdata" then
