@@ -30,7 +30,12 @@ The hump library files must be included in the project. You can quickly grab the
 
 * Sound/music/audio system
 * Update client/server classes to use new ENet library in love
+* Flesh out console system (text input seriously sucks)
+* [Lurker][lurker] implementation for scripting engine for development
+
+# Future Features
 * Simple GUI system?
 
 [love2d]: https://love2d.org
 [hump]: http://vrld.github.io/hump
+[lurker]: https://github.com/rxi/lurker
