@@ -8,10 +8,13 @@ A console and scripting system for LOVE2D games.
 
 ]]--
 
+-- Require our base Class
 local Class = require("lib.hump.class")
 
+-- Our Console class
 local Console = Class{}
 
+-- Import os for date method
 local os = require("os")
 
 function Console:init(font, height, overwritePrint, show, addHooks)
