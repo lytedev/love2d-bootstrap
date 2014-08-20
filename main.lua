@@ -1,11 +1,20 @@
---[[
+-- Put your code here!
 
-File: 		main.lua
-Author: 	Daniel "lytedev" Flanagan
-Website:	http://dmf.me
+-- Maybe you just want the scripting hooks?
+hooks = require('lib.hooks')
+hooks.registerLoveCallbacks()
+-- This should be global and named "hooks"
 
-Game entry point.
+-- Want the console?
+font = love.graphics.newFont()
+lineHeight = 12
+replacePrint = true
+showInitially = true
+local console = require('lib.console')(font, lineHeight, replacePrint, showInitially)
+-- Console automatically loads in in-game scripting hooks (if they weren't already)
+-- You may realistically want this to be global
 
-]]--
-
-console = require("lib.console")(love.graphics.newFont(12), nil)
+function exampleHook(arg) 
+	print("example: " .. tostring(arg))
+end
+hooks:add('load', function() exampleHook("Hello, Hook!") end)

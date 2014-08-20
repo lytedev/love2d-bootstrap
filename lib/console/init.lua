@@ -14,8 +14,9 @@ local Console = Class{}
 
 local os = require("os")
 
-function Console:init(font, height, overwritePrint, show)
+function Console:init(font, height, overwritePrint, show, addHooks)
 	overwritePrint = overwritePrint or true
+	addHooks = addHooks or false
 	show = show or false
 	font = font or false
 	if font and not height then
@@ -101,7 +102,7 @@ function Console:init(font, height, overwritePrint, show)
 		self:toggle()
 	end
 
-	if hooks == nil then
+	if hooks == nil and addHooks then
 		hooks = require("lib.hooks")
 		hooks.registerLoveCallbacks()
 	end
